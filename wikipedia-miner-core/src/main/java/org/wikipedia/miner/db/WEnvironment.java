@@ -620,9 +620,9 @@ public class WEnvironment  {
 				
 			} catch (Exception e) {
 				failureCause = e ;
-			} ;
+			}
 
-			completed = true ;
+            completed = true ;
 		}
 	}
 	

@@ -108,11 +108,11 @@ public class LabelComparer {
 		//TODO: filter to resolve skewness?
 	}
 	
-	public void saveDisambiguationTrainingData(File file) throws IOException, Exception {
+	public void saveDisambiguationTrainingData(File file) throws Exception {
 		senseDataset.save(file) ;
 	}
 	
-	public void saveComparisonTrainingData(File file) throws IOException, Exception {
+	public void saveComparisonTrainingData(File file) throws Exception {
 		relatednessDataset.save(file) ;
 	}
 	
@@ -496,7 +496,7 @@ public class LabelComparer {
 			
 		}
 		
-		private void predictIsValid() throws ClassMissingException, AttributeMissingException, Exception {
+		private void predictIsValid() throws Exception {
 			disambiguationConfidence = senseSelector.getDecisionDistribution(getInstance()).get(true) ;
 			isValid = (disambiguationConfidence > 0.5) ;
 		}

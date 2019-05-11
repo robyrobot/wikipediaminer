@@ -12,7 +12,7 @@ import org.wikipedia.miner.util.text.PorterStemmer;
 
 public class EnvironmentBuilder {
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
 		if (args.length != 1) {
 			System.out.println("Please specify path to wikipedia configuration file") ;

@@ -45,8 +45,8 @@ import org.wikipedia.miner.annotation.preprocessing.*;
  */
 public class TopicDetector {
 	
-	public enum DisambiguationPolicy {STRICT, LOOSE} ;
-	
+	public enum DisambiguationPolicy {STRICT, LOOSE}
+
 	private Wikipedia wikipedia ;
 	private Disambiguator disambiguator ;
 	

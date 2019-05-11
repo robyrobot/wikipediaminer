@@ -66,14 +66,14 @@ public class Disambiguator {
 	private double minLinkProbability ;
 	private int maxContextSize ;
 	
-	private enum Attributes {commonness, relatedness, contextQuality} ;
-	
+	private enum Attributes {commonness, relatedness, contextQuality}
+
 	private Decider<Attributes, Boolean> decider ;
 	private Dataset<Attributes, Boolean> dataset ;
 	
 	private int sensesConsidered = 0 ;
 	
-	public Disambiguator(Wikipedia wikipedia) throws IOException, Exception {
+	public Disambiguator(Wikipedia wikipedia) throws Exception {
 		
 		WikipediaConfiguration conf = wikipedia.getConfig() ;
 			
@@ -113,7 +113,7 @@ public class Disambiguator {
 		Enumeration<Instance> e = dataset.enumerateInstances() ;
 
 		while (e.hasMoreElements()) {
-			Instance i = (Instance) e.nextElement() ;
+			Instance i = e.nextElement();
 
 			double isValidSense = i.value(3) ;
 
@@ -123,12 +123,12 @@ public class Disambiguator {
 				negativeInstances ++ ;
 		}
 
-		double p = (double) positiveInstances / (positiveInstances + negativeInstances) ;
+		double p = positiveInstances / (positiveInstances + negativeInstances) ;
 
 		e = dataset.enumerateInstances() ;
 
 		while (e.hasMoreElements()) {
-			Instance i = (Instance) e.nextElement() ;
+			Instance i = e.nextElement();
 
 			double isValidSense = i.value(3) ;
 

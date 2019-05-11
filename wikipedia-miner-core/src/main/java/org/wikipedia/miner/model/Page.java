@@ -46,9 +46,9 @@ public class Page implements Comparable<Page> {
 		 * A type of page that we don't currently deal with (e.g templates)
 		 */
 		invalid
-	} ;
+	}
 
-	protected int id ;
+    protected int id ;
 	protected String title ;
 	protected PageType type ;
 	protected int depth ;

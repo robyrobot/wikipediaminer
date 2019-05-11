@@ -38,14 +38,14 @@ public class ComparisonDataSet {
 				Integer idA = null ;
 				try {
 					idA = new Integer(values[1]) ;
-				} catch (Exception e) {} ;
-				String termB = values[2] ;
+				} catch (Exception e) {}
+                String termB = values[2] ;
 				Integer idB = null ;
 				try {
 					idB = new Integer(values[3]) ;
-				} catch (Exception e) {} ;
+				} catch (Exception e) {}
 
-				Double relatedness = new Double(values[4]) ;
+                Double relatedness = new Double(values[4]) ;
 
 				//make between 0 and 1; its what we are used to.
 				relatedness = relatedness/maxRelatedness ;

@@ -34,7 +34,11 @@ public class SiteInfo {
 	
 	@Element
 	private String generator ;
-	
+
+	@Element(required = false)
+	private String dbname ;
+
+
 	@Element(name="case") 
 	private String caseRule ;
 	
@@ -109,7 +113,11 @@ public class SiteInfo {
 		return serializer.read(SiteInfo.class, sb.toString()) ;
 				
 	}
-	
+
+	public String getDbname() {
+		return dbname;
+	}
+
 	public String getSiteName() {
 		return siteName;
 	}

@@ -29,9 +29,9 @@ import org.wikipedia.miner.model.Article;
  */
 public class ArticleCleaner {
 	
-	public enum SnippetLength { full, firstSentence, firstParagraph } ;	
-	
-	private MarkupStripper stripper ;
+	public enum SnippetLength { full, firstSentence, firstParagraph }
+
+    private MarkupStripper stripper ;
 	
 	/**
 	 * Initializes a new ArticleCleaner

@@ -15,9 +15,9 @@ import org.wikipedia.miner.extract.model.struct.LabelSenseList;
 
 public abstract class CombinerOrReducer extends AvroReducer<CharSequence, LabelSenseList, Pair<CharSequence, LabelSenseList>> {
 	
-	public enum Counts {ambiguous, unambiguous} ;
-	
-	public abstract boolean isReducer() ;
+	public enum Counts {ambiguous, unambiguous}
+
+    public abstract boolean isReducer() ;
 	
 	
 	

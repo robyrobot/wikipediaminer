@@ -79,9 +79,9 @@ public class ArticleSetBuilder {
 	}
 	
 	public ArticleSet[] buildExclusiveSets(int[] sizes, Wikipedia wikipedia) {
-		
-		
-		ArticleSet sets[] = new ArticleSet[sizes.length] ;
+
+
+        ArticleSet[] sets = new ArticleSet[sizes.length];
 		
 		ArticleSet exclude = new ArticleSet() ;
 		

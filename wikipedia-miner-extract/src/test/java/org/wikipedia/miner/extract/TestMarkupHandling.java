@@ -1,20 +1,17 @@
 package org.wikipedia.miner.extract;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLStreamException;
-
-import opennlp.tools.util.InvalidFormatException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.wikipedia.miner.extract.model.DumpPage;
 import org.wikipedia.miner.extract.util.PageSentenceExtractor;
+
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLStreamException;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestMarkupHandling extends MarkupTestCase {
 
@@ -73,7 +70,7 @@ public class TestMarkupHandling extends MarkupTestCase {
 	}
 
 	
-	private PageSentenceExtractor loadSentenceExtractor() throws InvalidFormatException, IOException {
+	private PageSentenceExtractor loadSentenceExtractor() throws IOException {
 
 		File sentenceModelFile = new File("../models/en-sent.bin") ;
 

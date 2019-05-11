@@ -12,10 +12,10 @@ import org.wikipedia.miner.extract.model.struct.PageDepthSummary;
 
 public abstract class DepthCombinerOrReducer extends AvroReducer<Integer, PageDepthSummary, Pair<Integer, PageDepthSummary>> {
 
-	public enum Counts {unforwarded, withDepth,withoutDepth} ;
-	
-	
-	public abstract boolean isReducer() ;
+	public enum Counts {unforwarded, withDepth,withoutDepth}
+
+
+    public abstract boolean isReducer() ;
 	
 
 	@Override

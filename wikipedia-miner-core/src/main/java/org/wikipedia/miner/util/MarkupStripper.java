@@ -418,9 +418,9 @@ public class MarkupStripper {
 		for (int[] region:regions) {
 			if (isIsolated(region, markup))
 				isolatedRegions.add(region) ;
-		} ;
-		
-		return isolatedRegions ;
+		}
+
+        return isolatedRegions ;
 	}
 	
 	public Vector<int[]> excludeIsolatedRegions(Vector<int[]> regions, String markup) {
@@ -430,9 +430,9 @@ public class MarkupStripper {
 		for (int[] region:regions) {
 			if (!isIsolated(region, markup))
 				unisolatedRegions.add(region) ;
-		} ;
-		
-		return unisolatedRegions ;
+		}
+
+        return unisolatedRegions ;
 	}
 	
 	private boolean isIsolated(int[] region, String markup) {
@@ -445,11 +445,9 @@ public class MarkupStripper {
 			return false ;
 		
 		m = isolatedAfter.matcher(after) ;
-		if(!m.matches())
-			return false ;
-		
-		return true ;
-	}
+        return m.matches();
+
+    }
 
 	/**
 	 * Gathers areas within the markup which correspond to tables (as identified by {| and |} pairs). 
@@ -607,10 +605,7 @@ public class MarkupStripper {
 		
 		Matcher m = p.matcher(resolvedLine) ;
 		if (m.matches()) {
-			if (m.group(1).contains("</i>"))
-				return false ;
-			else
-				return true ;
+            return !m.group(1).contains("</i>");
 		} else {
 			return false ;
 		}

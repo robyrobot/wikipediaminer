@@ -59,9 +59,9 @@ public abstract class DocumentTagger {
 		 * Only the first mention within each region (e.g. DIV) will be tagged
 		 */
 		FIRST_IN_REGION
-	} ;	
+	}
 
-	/**
+    /**
 	 * Specifies how terms in the document will be replaced by tags. A tagger for html, for example, might return a link to the relevant Wikipedia article.
 	 * 
 	 * @param term the text in the original document that will be tagged.
@@ -109,7 +109,7 @@ public abstract class DocumentTagger {
 			if (topic != null && (repeatMode == RepeatMode.ALL || !doneIds.contains(id))) {
 
 				doneIds.add(id) ;
-				wikifiedText.append(originalText.substring(lastIndex, start)) ;
+				wikifiedText.append(originalText, lastIndex, start) ;
 				wikifiedText.append(getTag(originalText.substring(start, end), topic)) ;
 
 				lastIndex = end ;

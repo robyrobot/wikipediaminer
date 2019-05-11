@@ -116,7 +116,7 @@ public class HtmlPreprocessor extends DocumentPreprocessor{
 		StringBuilder sbTemp = new StringBuilder() ;
 
 		while(m.find()) {
-			sbTemp.append(temp.substring(lastPos, m.start())) ;
+			sbTemp.append(temp, lastPos, m.start()) ;
 			sbTemp.append(getSpaceString(m.group().length())) ;
 			
 			//links may contain other tags, lets get down to the raw text.

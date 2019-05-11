@@ -10,9 +10,9 @@ import org.wikipedia.miner.extract.model.struct.LabelOccurrences;
 
 public abstract class CombinerOrReducer extends AvroReducer<CharSequence, LabelOccurrences, Pair<CharSequence, LabelOccurrences>> {
 	
-	public enum Counts {falsePositives, truePositives} ;
-	
-	public abstract boolean isReducer() ;
+	public enum Counts {falsePositives, truePositives}
+
+    public abstract boolean isReducer() ;
 	
 	@Override
 	public void reduce(CharSequence label, Iterable<LabelOccurrences> partials,

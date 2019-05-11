@@ -105,7 +105,7 @@ public class Cleaner extends TextProcessor{
 						resultStr.append(' ');
 					}
 				}
-				resultStr.append(text.substring(startj, j));
+				resultStr.append(text, startj, j);
 				if (j == text.length()) {
 					break;
 				}

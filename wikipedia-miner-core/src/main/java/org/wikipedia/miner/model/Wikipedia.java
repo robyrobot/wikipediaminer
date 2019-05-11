@@ -289,7 +289,7 @@ public class Wikipedia {
 		//if this starts with capital letter and is at start of sentence, try lower-casing that first letter.
 		if (span.getCaseContext() == CaseContext.mixed && span.isSentenceStart() && Character.isUpperCase(ngram.charAt(0))) {
 			//System.out.println("trying lower first letter first token") ;
-			char tmpNgram[] = ngram.toCharArray() ;
+            char[] tmpNgram = ngram.toCharArray();
 			tmpNgram[0] = Character.toLowerCase(tmpNgram[0]) ;
 			
 			Label label = getLabel(new String(tmpNgram)) ;

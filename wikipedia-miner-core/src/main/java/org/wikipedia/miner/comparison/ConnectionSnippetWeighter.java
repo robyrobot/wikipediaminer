@@ -132,7 +132,7 @@ public class ConnectionSnippetWeighter {
 	 * @param file the file to save the training data to
 	 * @throws IOException if the file cannot be written to
 	 */
-	public void saveTrainingData(File file) throws IOException, Exception {
+	public void saveTrainingData(File file) throws Exception {
 		trainingDataset.save(file) ;
 	}
 

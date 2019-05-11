@@ -15,8 +15,8 @@ public class CorrelationCalculator {
 	}
 	
 	private static double[] toArray(List<Double> col) {
-		
-		double vals[] = new double[col.size()] ;
+
+        double[] vals = new double[col.size()];
 		
 		int index = 0 ;
 		

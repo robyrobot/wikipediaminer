@@ -55,11 +55,12 @@ public class PageSummaryStep extends IterativeStep {
 
 	private static Logger logger = Logger.getLogger(PageSummaryStep.class) ;
 	
-	public enum SummaryPageType {article, category, disambiguation, articleRedirect, categoryRedirect, unparseable} ; 
-	public enum Unforwarded {redirect,linkIn,linkOut,parentCategory,childCategory,childArticle} ; 
+	public enum SummaryPageType {article, category, disambiguation, articleRedirect, categoryRedirect, unparseable}
+
+    public enum Unforwarded {redirect,linkIn,linkOut,parentCategory,childCategory,childArticle}
 
 
-	private Map<Unforwarded,Long> unforwardedCounts ;
+    private Map<Unforwarded,Long> unforwardedCounts ;
 
 
 	

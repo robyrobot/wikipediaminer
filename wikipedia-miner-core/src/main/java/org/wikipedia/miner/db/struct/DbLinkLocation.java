@@ -176,7 +176,7 @@ public class DbLinkLocation extends org.apache.hadoop.record.Record {
   public int hashCode() {
     int _rio_result = 17;
     int _rio_ret;
-    _rio_ret = (int)LinkId;
+    _rio_ret = LinkId;
     _rio_result = 37*_rio_result + _rio_ret;
     _rio_ret = SentenceIndexes.hashCode();
     _rio_result = 37*_rio_result + _rio_ret;

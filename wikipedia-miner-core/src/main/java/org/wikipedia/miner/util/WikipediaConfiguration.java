@@ -42,9 +42,9 @@ import org.xml.sax.SAXException;
 
 public class WikipediaConfiguration {
 	
-	private enum ParamName{langCode,databaseDirectory,dataDirectory,defaultTextProcessor,minLinksIn,minSenseProbability,minLinkProbability, articlesOfInterest, databaseToCache,stopwordFile,articleComparisonDependency,articleComparisonModel, labelDisambiguationModel, labelComparisonModel, comparisonSnippetModel, topicDisambiguationModel, linkDetectionModel, tokenModel, sentenceModel, unknown} ;
-	
-	private String langCode ;
+	private enum ParamName{langCode,databaseDirectory,dataDirectory,defaultTextProcessor,minLinksIn,minSenseProbability,minLinkProbability, articlesOfInterest, databaseToCache,stopwordFile,articleComparisonDependency,articleComparisonModel, labelDisambiguationModel, labelComparisonModel, comparisonSnippetModel, topicDisambiguationModel, linkDetectionModel, tokenModel, sentenceModel, unknown}
+
+    private String langCode ;
 
 	private File dbDirectory ;
 	private File dataDirectory ;
@@ -402,14 +402,14 @@ public class WikipediaConfiguration {
 					break ;
 				default:
 					Logger.getLogger(WikipediaConfiguration.class).warn("Ignoring unknown parameter: '" + paramName + "'") ;
-				} ;
-			}
+				}
+            }
 			
 			if (!artCompDependencies.isEmpty())
-				articleComparisonDependencies = EnumSet.copyOf(artCompDependencies) ; ;
-			
-		
-			//TODO: throw fit if mandatory params (langCode, dbDirectory) are missing. 	
+				articleComparisonDependencies = EnumSet.copyOf(artCompDependencies) ;
+
+
+            //TODO: throw fit if mandatory params (langCode, dbDirectory) are missing.
 		}
 	}
 	

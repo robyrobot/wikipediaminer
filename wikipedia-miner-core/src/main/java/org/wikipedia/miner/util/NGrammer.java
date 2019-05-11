@@ -36,9 +36,9 @@ public class NGrammer {
 		 * ngram is found in text with a Healthy mixture of capitalization (probably normal text)
 		 */
 		mixed
-	} ;
+	}
 
-	private Tokenizer _tokenizer ;
+    private Tokenizer _tokenizer ;
 	private SentenceDetector _sentenceDetector ;
 
 	private int _maxN = 10 ;
@@ -65,7 +65,7 @@ public class NGrammer {
 	
 	public String[] ngramDetect(String s) {
 
-		Span spans[] = ngramPosDetect(s) ;
+        Span[] spans = ngramPosDetect(s);
 		String[] ngrams = new String[spans.length] ;
 
 		for (int i=0 ; i<spans.length ; i++) 

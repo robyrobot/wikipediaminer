@@ -31,20 +31,20 @@ public class PageSentenceExtractor {
 	//split paragraphs either after multiple new lines, or on a line that starts with a indent (:) or list(*,#) marker
 	private Pattern paragraphSplitPattern = Pattern.compile("((\n\\s*){2,}|\n\\s*[*:#])") ;
 
-	public PageSentenceExtractor(Path sentenceModel) throws InvalidFormatException, IOException {
+	public PageSentenceExtractor(Path sentenceModel) throws IOException {
 
 		InputStream sentenceModelStream = new FileInputStream(sentenceModel.toString());
 		init(sentenceModelStream) ;
 	}
 	
-	public PageSentenceExtractor(File sentenceModel) throws InvalidFormatException, IOException {
+	public PageSentenceExtractor(File sentenceModel) throws IOException {
 		
 		InputStream sentenceModelStream = new FileInputStream(sentenceModel);
 		init(sentenceModelStream) ;
 	}
 
 
-	private void init(InputStream sentenceModelStream) throws InvalidFormatException, IOException {
+	private void init(InputStream sentenceModelStream) throws IOException {
 
 		SentenceModel model = null ;
 		try {

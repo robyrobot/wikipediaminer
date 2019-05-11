@@ -22,6 +22,7 @@ import org.apache.avro.hadoop.util.AvroCharSequenceComparator;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.mapred.FsInput;
 import org.apache.avro.mapred.Pair;
+import org.apache.avro.specific.SpecificData;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -142,37 +143,40 @@ public class FinalSummaryStep extends LocalStep {
 
 
 		Path pageDetailPath = getMainAvroResultPath(pageSortingStep) ;
+		logger.info(String.format("pageDetailPath: %s", pageDetailPath.toString()));
 		SeekableInput pageDetailInput = new FsInput(pageDetailPath, new Configuration());
 
 		Schema pageDetailSchema = Pair.getPairSchema(Schema.create(Type.INT),PageDetail.getClassSchema()) ;
-		DatumReader<Pair<Integer,PageDetail>> pageDetailDatumReader = new SpecificDatumReader<Pair<Integer,PageDetail>>(pageDetailSchema);
+		DatumReader<Pair<Integer,PageDetail>> pageDetailDatumReader = new SpecificDatumReader<Pair<Integer,PageDetail>>(pageDetailSchema, pageDetailSchema, new SpecificData(Pair.class.getClassLoader()));
 		FileReader<Pair<Integer,PageDetail>> pageDetailReader = DataFileReader.openReader(pageDetailInput, pageDetailDatumReader) ;
 
-
-
-		Path pageDepthsPath = getMainAvroResultPath(pageDepthStep) ;
+		Path pageDepthsPath = getMainAvroResultPath(pageDepthStep);
+		logger.info(String.format("pageDepthsPath: %s", pageDepthsPath.toString()));
 		SeekableInput pageDepthsInput = new FsInput(pageDepthsPath, new Configuration());
 
 		Schema pageDepthsSchema = Pair.getPairSchema(Schema.create(Type.INT),PageDepthSummary.getClassSchema()) ;
-		DatumReader<Pair<Integer,PageDepthSummary>> pageDepthsDatumReader = new SpecificDatumReader<Pair<Integer,PageDepthSummary>>(pageDepthsSchema);
+		DatumReader<Pair<Integer,PageDepthSummary>> pageDepthsDatumReader = new SpecificDatumReader<Pair<Integer,PageDepthSummary>>(pageDepthsSchema, pageDepthsSchema, new SpecificData(Pair.class.getClassLoader()));
 		FileReader<Pair<Integer,PageDepthSummary>> pageDepthsReader = DataFileReader.openReader(pageDepthsInput, pageDepthsDatumReader) ;
-		
-		
-		Path primaryLabelPath = getMainAvroResultPath(primaryLabelStep) ;
+
+
+		Path primaryLabelPath = getMainAvroResultPath(primaryLabelStep);
+		logger.info(String.format("primaryLabelPath: %s", primaryLabelPath.toString()));
 		SeekableInput primaryLabelInput = new FsInput(primaryLabelPath, new Configuration());
 
 		Schema primaryLabelSchema = Pair.getPairSchema(Schema.create(Type.INT),PrimaryLabels.getClassSchema()) ;
-		DatumReader<Pair<Integer,PrimaryLabels>> primaryLabelDatumReader = new SpecificDatumReader<Pair<Integer,PrimaryLabels>>(primaryLabelSchema);
+		DatumReader<Pair<Integer,PrimaryLabels>> primaryLabelDatumReader = new SpecificDatumReader<Pair<Integer,PrimaryLabels>>(primaryLabelSchema, primaryLabelSchema, new SpecificData(Pair.class.getClassLoader()));
 		FileReader<Pair<Integer,PrimaryLabels>> primaryLabelReader = DataFileReader.openReader(primaryLabelInput, primaryLabelDatumReader) ;
 
 
 		//read through pageDetail and pageDepth files simultaneously.
 		//both are sorted by id, but pageDepth will be missing many entries.
 
-		Pair<Integer,PageDetail> detailPair = null ;
-		Pair<Integer,PageDepthSummary> depthPair = null ;
-		Pair<Integer,PrimaryLabels> primaryLabelPair = null ;
+		Pair<Integer,PageDetail> detailPair;
+		Pair<Integer,PageDepthSummary> depthPair = null;
+		Pair<Integer,PrimaryLabels> primaryLabelPair = null;
 		while (pageDetailReader.hasNext()) {
+
+			//logger.info(String.format("schema: %s", pageDetailReader.getSchema()));
 
 			detailPair = pageDetailReader.next();
 			PageDetail detail = detailPair.value() ;
@@ -192,13 +196,7 @@ public class FinalSummaryStep extends LocalStep {
 			Set<CharSequence> primaryLabels = new HashSet<CharSequence>() ;
 			if (primaryLabelPair.key().equals(detailPair.key())) 
 				primaryLabels.addAll(primaryLabelPair.value().getLabels()) ;
-			
 
-			
-
-			
-			
-			
 			//now we definitely have a page. If we have a depth, then it is synchonized with page
 
 			DbPage page = buildPage(detail, depth) ;
@@ -289,26 +287,21 @@ public class FinalSummaryStep extends LocalStep {
 
 	public void finalizeLabelStuff() throws IOException {
 
-
-
-
-
 		BufferedWriter labelWriter = createWriter("label.csv") ;
 
 		Path labelSensesPath = getMainAvroResultPath(labelSensesStep) ;
 		SeekableInput labelSensesInput = new FsInput(labelSensesPath, new Configuration());
 
 		Schema labelSensesSchema = Pair.getPairSchema(Schema.create(Type.STRING),LabelSenseList.getClassSchema()) ;
-		DatumReader<Pair<CharSequence,LabelSenseList>> labelSensesDatumReader = new SpecificDatumReader<Pair<CharSequence,LabelSenseList>>(labelSensesSchema);
+		DatumReader<Pair<CharSequence,LabelSenseList>> labelSensesDatumReader = new SpecificDatumReader<Pair<CharSequence,LabelSenseList>>(labelSensesSchema, labelSensesSchema, new SpecificData(Pair.class.getClassLoader()));
 		FileReader<Pair<CharSequence,LabelSenseList>> labelSensesReader = DataFileReader.openReader(labelSensesInput, labelSensesDatumReader) ;
-
 
 
 		Path labelOccurrencesPath = getMainAvroResultPath(labelOccurrenceStep) ;
 		SeekableInput labelOccurrencesInput = new FsInput(labelOccurrencesPath, new Configuration());
 
 		Schema labelOccurrencesSchema = Pair.getPairSchema(Schema.create(Type.STRING),LabelOccurrences.getClassSchema()) ;
-		DatumReader<Pair<CharSequence,LabelOccurrences>> labelOccurrencesDatumReader = new SpecificDatumReader<Pair<CharSequence,LabelOccurrences>>(labelOccurrencesSchema);
+		DatumReader<Pair<CharSequence,LabelOccurrences>> labelOccurrencesDatumReader = new SpecificDatumReader<Pair<CharSequence,LabelOccurrences>>(labelOccurrencesSchema, labelOccurrencesSchema, new SpecificData(Pair.class.getClassLoader()));
 		FileReader<Pair<CharSequence,LabelOccurrences>> labelOccurrencesReader = DataFileReader.openReader(labelOccurrencesInput, labelOccurrencesDatumReader) ;
 
 		Pair<CharSequence,LabelSenseList> sensesPair = null ;

@@ -44,11 +44,11 @@ public class ArticleComparer {
 		 * Use link counts to measure relatedness. You should cache {@link DatabaseType#pageLinkCounts} if using this mode extensively. 
 		 */
 		linkCounts
-	} ;
+	}
 
-	private enum LinkDirection{In, Out} ;
-	
-	Wikipedia wikipedia ;
+    private enum LinkDirection{In, Out}
+
+    Wikipedia wikipedia ;
 	EnumSet<DataDependency> dependancies ;
 
 	int wikipediaArticleCount ;
@@ -203,7 +203,7 @@ public class ArticleComparer {
 	 * @param file the file to save the training data to
 	 * @throws IOException if the file cannot be written to
 	 */
-	public void saveTrainingData(File file) throws IOException, Exception {
+	public void saveTrainingData(File file) throws Exception {
 		trainingDataset.save(file) ;
 	}
 

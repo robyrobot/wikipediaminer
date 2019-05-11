@@ -162,9 +162,9 @@ public class DbPage extends org.apache.hadoop.record.Record {
     int _rio_ret;
     _rio_ret = Title.hashCode();
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)Type;
+    _rio_ret = Type;
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)depth;
+    _rio_ret = depth;
     _rio_result = 37*_rio_result + _rio_ret;
     return _rio_result;
   }

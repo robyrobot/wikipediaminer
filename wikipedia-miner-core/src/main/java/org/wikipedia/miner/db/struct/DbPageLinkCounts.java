@@ -180,13 +180,13 @@ public class DbPageLinkCounts extends org.apache.hadoop.record.Record {
   public int hashCode() {
     int _rio_result = 17;
     int _rio_ret;
-    _rio_ret = (int)TotalLinksIn;
+    _rio_ret = TotalLinksIn;
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)DistinctLinksIn;
+    _rio_ret = DistinctLinksIn;
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)TotalLinksOut;
+    _rio_ret = TotalLinksOut;
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)DistinctLinksOut;
+    _rio_ret = DistinctLinksOut;
     _rio_result = 37*_rio_result + _rio_ret;
     return _rio_result;
   }

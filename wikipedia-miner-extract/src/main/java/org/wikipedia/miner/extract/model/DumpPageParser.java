@@ -25,9 +25,9 @@ public class DumpPageParser {
 	
 	private XMLInputFactory xmlStreamFactory = XMLInputFactory.newInstance() ;
 
-	private enum DumpTag {page, id, title, text, timestamp, ignorable} ;
-	
-	private Language language ;
+	private enum DumpTag {page, id, title, text, timestamp, ignorable}
+
+    private Language language ;
 	private SiteInfo siteInfo ;
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'") ;

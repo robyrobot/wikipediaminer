@@ -200,7 +200,7 @@ public class DbSenseForLabel extends org.apache.hadoop.record.Record {
   public int hashCode() {
     int _rio_result = 17;
     int _rio_ret;
-    _rio_ret = (int)Id;
+    _rio_ret = Id;
     _rio_result = 37*_rio_result + _rio_ret;
     _rio_ret = (int) (LinkOccCount^(LinkOccCount>>>32));
     _rio_result = 37*_rio_result + _rio_ret;

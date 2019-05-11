@@ -1,27 +1,23 @@
 package org.wikipedia.miner.db;
 
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.io.input.CountingInputStream;
-import org.apache.hadoop.record.CsvRecordInput;
-import org.wikipedia.miner.util.ProgressTracker;
-import org.wikipedia.miner.util.WikipediaConfiguration;
-
 import com.sleepycat.bind.tuple.IntegerBinding;
 import com.sleepycat.bind.tuple.StringBinding;
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseEntry;
+import org.apache.commons.io.input.CountingInputStream;
+import org.apache.hadoop.io.compress.bzip2.CBZip2InputStream;
+import org.apache.hadoop.record.CsvRecordInput;
+import org.wikipedia.miner.util.ProgressTracker;
+import org.wikipedia.miner.util.WikipediaConfiguration;
 
-import org.apache.tools.bzip2.* ;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A {@link WDatabase} for associating page ids with page markup. 
@@ -30,7 +26,7 @@ import org.apache.tools.bzip2.* ;
  */
 public class MarkupDatabase extends WDatabase<Integer, String> {
 
-	private enum DumpTag {page, id, text, ignorable} ;
+	private enum DumpTag {page, id, text, ignorable}
 
 	/**
 	 * Creates or connects to a database, whose name and type will be {@link WDatabase.DatabaseType#markup}.

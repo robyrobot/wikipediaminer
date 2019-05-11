@@ -140,9 +140,9 @@ public class DbIntPair extends org.apache.hadoop.record.Record {
   public int hashCode() {
     int _rio_result = 17;
     int _rio_ret;
-    _rio_ret = (int)ValueA;
+    _rio_ret = ValueA;
     _rio_result = 37*_rio_result + _rio_ret;
-    _rio_ret = (int)ValueB;
+    _rio_ret = ValueB;
     _rio_result = 37*_rio_result + _rio_ret;
     return _rio_result;
   }

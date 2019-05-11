@@ -106,7 +106,7 @@ public abstract class DocumentPreprocessor {
 		StringBuilder sb = new StringBuilder() ;
 		
 		while(m.find()) {
-			sb.append(text.substring(lastPos, m.start())) ;
+			sb.append(text, lastPos, m.start()) ;
 			sb.append(getSpaceString(m.group().length())) ;			
 			lastPos = m.end() ;		
 		}

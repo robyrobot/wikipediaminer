@@ -54,8 +54,9 @@ public class LinkDetector extends TopicWeighter{
 	private ArticleCleaner cleaner ;
 	
 	
-	private enum Attributes {occurances,maxDisambigConfidence,avgDisambigConfidence,relatednessToContext,relatednessToOtherTopics,maxLinkProbability,avgLinkProbability,generality,firstOccurance,lastOccurance,spread} ;
-	private Decider<Attributes, Boolean> decider ;
+	private enum Attributes {occurances,maxDisambigConfidence,avgDisambigConfidence,relatednessToContext,relatednessToOtherTopics,maxLinkProbability,avgLinkProbability,generality,firstOccurance,lastOccurance,spread}
+
+    private Decider<Attributes, Boolean> decider ;
 	private Dataset<Attributes, Boolean> dataset ;
 	
 	int linksConsidered = 0 ;
@@ -371,7 +372,7 @@ public class LinkDetector extends TopicWeighter{
 		Enumeration<Instance> e = dataset.enumerateInstances() ;
 
 		while (e.hasMoreElements()) {
-			Instance i = (Instance) e.nextElement() ;
+			Instance i = e.nextElement();
 
 			double isValidSense = i.value(3) ;
 
@@ -381,12 +382,12 @@ public class LinkDetector extends TopicWeighter{
 				negativeInstances ++ ;
 		}
 
-		double p = (double) positiveInstances / (positiveInstances + negativeInstances) ;
+		double p = positiveInstances / (positiveInstances + negativeInstances) ;
 
 		e = dataset.enumerateInstances() ;
 
 		while (e.hasMoreElements()) {
-			Instance i = (Instance) e.nextElement() ;
+			Instance i = e.nextElement();
 
 			double isValidSense = i.value(3) ;
 

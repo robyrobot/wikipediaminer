@@ -1,15 +1,7 @@
 package org.wikipedia.miner.extract;
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
+import org.apache.avro.mapred.Pair;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
@@ -27,8 +19,9 @@ import org.wikipedia.miner.extract.steps.pageSummary.PageSummaryStep;
 import org.wikipedia.miner.extract.steps.primaryLabel.PrimaryLabelStep;
 import org.wikipedia.miner.extract.steps.sortedPages.PageSortingStep;
 
-import org.wikipedia.miner.extract.util.Languages;
-import org.wikipedia.miner.extract.util.Languages.Language;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 
@@ -123,6 +116,12 @@ public class DumpExtractor {
 		
 		//TODO: really don't want this hard coded.
 		conf.set("mapred.child.java.opts", "-Xmx500M -Dapple.awt.UIElement=true") ;
+
+		conf.set("mapreduce.job.user.classpath.first", "true");
+
+		//conf.setMapOutputKeyClass(Pair.class);
+
+		//conf.setOutputKeyClass(Pair.class);
 
 		//conf.setBoolean("mapred.used.genericoptionsparser", true) ;
 

@@ -92,7 +92,7 @@ public class WikiPreprocessor extends DocumentPreprocessor {
 		StringBuilder sb = new StringBuilder() ;
 		
 		while(m.find()) {
-			sb.append(markup.substring(lastPos, m.start())) ;
+			sb.append(markup, lastPos, m.start()) ;
 			sb.append(getSpaceString(m.group().length())) ;
 			
 			String title = m.group(2).trim() ;
@@ -128,7 +128,7 @@ public class WikiPreprocessor extends DocumentPreprocessor {
 					templateStack.remove(templateStack.size()-1) ;
 
 					if (templateStack.isEmpty()) {
-						sb.append(markup.substring(lastIndex, templateStart)) ;
+						sb.append(markup, lastIndex, templateStart) ;
 
 						//we have the whole template, with other templates nested inside		
 						for (int i=templateStart; i<m.end() ; i++)
@@ -167,7 +167,7 @@ public class WikiPreprocessor extends DocumentPreprocessor {
 					int templateStart = tableStack.size()-1 ;
 					tableStack.remove(tableStack.size()-1) ;
 					if (tableStack.isEmpty()) {
-						sb.append(markup.substring(lastIndex, templateStart)) ;
+						sb.append(markup, lastIndex, templateStart) ;
 
 						for (int i=templateStart; i<m.end() ; i++)
 							sb.append(" ") ;
@@ -209,7 +209,7 @@ public class WikiPreprocessor extends DocumentPreprocessor {
 					linkStack.remove(linkStack.size()-1) ;
 
 					if (linkStack.isEmpty()) {
-						sb.append(markup.substring(lastIndex, linkStart)) ;
+						sb.append(markup, lastIndex, linkStart) ;
 
 						//we have the whole link, possibly with other links nested inside.
 						for (int i=linkStart; i<m.end() ; i++)
@@ -240,7 +240,7 @@ public class WikiPreprocessor extends DocumentPreprocessor {
 		StringBuilder sb = new StringBuilder() ;
 		
 		while(m.find()) {
-			sb.append(text.substring(lastPos, m.start())) ;
+			sb.append(text, lastPos, m.start()) ;
 			
 			sb.append(text.charAt(m.start())) ;
 			

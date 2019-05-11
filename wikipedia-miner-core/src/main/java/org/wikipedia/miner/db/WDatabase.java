@@ -573,8 +573,8 @@ public abstract class WDatabase<K,V> {
 		if (!readOnly) {
 			try {
 				env.getEnvironment().removeDatabase(null, name) ;
-			} catch (DatabaseNotFoundException e) {} ;
-		}
+			} catch (DatabaseNotFoundException e) {}
+        }
 
 		database = env.getEnvironment().openDatabase(null, name, conf);
 		return database ;
