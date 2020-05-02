@@ -28,11 +28,11 @@ import java.text.SimpleDateFormat;
 /**
  * @author dnk2
  *
- * This class extracts summaries (link graphs, etc) from Wikipedia xml dumps. 
+ * This class extracts summaries (link graphs, etc) from Wikipedia xml dumps.
  * It calls a sequence of Hadoop Map/Reduce jobs to do so in a scalable, timely fashion.
- * 
- * 
- *  
+ *
+ *
+ *
  */
 public class DumpExtractor {
 
@@ -61,11 +61,13 @@ public class DumpExtractor {
 	public static final String LOG_MEMORY_USE = "memoryUsage" ;
 
 
-	public static final String OUTPUT_SITEINFO = "final/siteInfo.xml" ;
+	//public static final String OUTPUT_SITEINFO = "final/siteInfo.xml" ;
+	public static final String OUTPUT_SITEINFO = "siteInfo.xml" ;
+
 	public static final String OUTPUT_PROGRESS = "tempProgress.csv" ;
 	public static final String OUTPUT_TEMPSTATS = "tempStats.csv" ;
 	public static final String OUTPUT_STATS = "final/stats.csv" ;
-	
+
 	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss") ;
 
 
@@ -86,7 +88,7 @@ public class DumpExtractor {
 
 	public static void main(String[] args) throws Exception {
 
-		//PropertyConfigurator.configure("log4j.properties");  
+		//PropertyConfigurator.configure("log4j.properties");
 
 		DumpExtractor de = new DumpExtractor(args) ;
 		int result = de.run();
@@ -102,10 +104,10 @@ public class DumpExtractor {
 		conf.set(KEY_SENTENCE_MODEL, args[3]) ;
 		conf.set(KEY_OUTPUT_DIR, args[4]) ;
 
-		//set a reasonable number of maps. This is going to be ignored for very large inputs (e.g. the en wiki dump) anyway. 
+		//set a reasonable number of maps. This is going to be ignored for very large inputs (e.g. the en wiki dump) anyway.
 		conf.setNumMapTasks(16) ;
-		
-		//force one reducer by default. These don't take very long, and multiple reducers would make finalise file functions more complicated.  
+
+		//force one reducer by default. These don't take very long, and multiple reducers would make finalise file functions more complicated.
 		conf.setNumReduceTasks(1) ;
 
 		//many of our tasks require pre-loading lots of data, may as well reuse this as much as we can.
@@ -113,7 +115,7 @@ public class DumpExtractor {
 
 		//conf.setInt("mapred.tasktracker.map.tasks.maximum", 2) ;
 		//conf.setInt("mapred.tasktracker.reduce.tasks.maximum", 1) ;
-		
+
 		//TODO: really don't want this hard coded.
 		conf.set("mapred.child.java.opts", "-Xmx500M -Dapple.awt.UIElement=true") ;
 
@@ -153,21 +155,21 @@ public class DumpExtractor {
 
 	private void configure() throws Exception {
 
-		if (args.length != 6) 
+		if (args.length != 6)
 			throw new IllegalArgumentException("Please specify a xml dump of wikipedia, a language.xml config file, a language code, an openNLP sentence detection model, an hdfs writable working directory, and an output directory") ;
 
 
 		//check input file
-		inputFile = getPath(args[0]); 
+		inputFile = getPath(args[0]);
 		FileStatus fs = getFileStatus(inputFile) ;
-		if (fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.READ)) 
+		if (fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.READ))
 			throw new IOException("'" +inputFile + " is not readable or does not exist") ;
 
 
 		//check lang file and language
 		langFile = getPath(args[1]) ;
 		lang = args[2] ;
-		
+
 		//TODO: should read language here, just to check it is valid
 		/*
 		Language language = Languages.load(new File(langFile.toString())).get(lang) ;
@@ -177,7 +179,7 @@ public class DumpExtractor {
 
 		sentenceModel = new Path(args[3]) ;
 		fs = getFileStatus(sentenceModel) ;
-		if (fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.READ)) 
+		if (fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.READ))
 			throw new IOException("'" + sentenceModel + " is not readable or does not exist") ;
 
 		//check working directory
@@ -187,7 +189,7 @@ public class DumpExtractor {
 			getFileSystem(workingDir).mkdirs(workingDir) ;
 
 		fs = getFileStatus(workingDir) ;
-		if (!fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.WRITE)) 
+		if (!fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.WRITE))
 			throw new IOException("'" +workingDir + " is not a writable directory") ;
 
 		//set up directory where final data will be placed
@@ -200,7 +202,7 @@ public class DumpExtractor {
 		getFileSystem(finalDir).mkdirs(finalDir) ;
 
 		fs = getFileStatus(finalDir) ;
-		if (!fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.WRITE)) 
+		if (!fs.isDir() || !fs.getPermission().getUserAction().implies(FsAction.WRITE))
 			throw new IOException("'" +workingDir + " is not a writable directory") ;
 		*/
 
@@ -211,58 +213,58 @@ public class DumpExtractor {
 		Logger.getLogger(DumpExtractor.class).info("Extracting site info") ;
 		extractSiteInfo() ;
 
-		
+
 		//extract basic page summaries
 		int summaryIteration = 0 ;
-		PageSummaryStep summaryStep ; 
+		PageSummaryStep summaryStep ;
 		while (true) {
-			
+
 			//long startTime = System.currentTimeMillis() ;
-			
+
 			summaryStep = new PageSummaryStep(workingDir, summaryIteration) ;
 			ToolRunner.run(new Configuration(), summaryStep, args);
-			
+
 			//System.out.println("intitial step completed in " + timeFormat.format(System.currentTimeMillis()-startTime)) ;
-			
+
 			if (!summaryStep.furtherIterationsRequired())
 				break ;
 			else
 				summaryIteration++ ;
 		}
-		
+
 		PageSortingStep sortingStep = new PageSortingStep(workingDir, summaryStep) ;
 		ToolRunner.run(new Configuration(), sortingStep, args);
-		
-		
+
+
 		//calculate page depths
 		int depthIteration = 0 ;
 		PageDepthStep depthStep ;
 		while (true) {
-			
+
 			depthStep = new PageDepthStep(workingDir, depthIteration, sortingStep) ;
 			ToolRunner.run(new Configuration(), depthStep, args);
-			
+
 			if (!depthStep.furtherIterationsRequired())
 				break ;
 			else
 				depthIteration++ ;
 		}
-		
+
 		//gather label senses
 		LabelSensesStep sensesStep = new LabelSensesStep(workingDir, sortingStep) ;
 		ToolRunner.run(new Configuration(), sensesStep, args);
-		
+
 		//gather primary labels
 		PrimaryLabelStep primaryLabelStep = new PrimaryLabelStep(workingDir, sensesStep) ;
 		ToolRunner.run(new Configuration(), primaryLabelStep, args);
-		
+
 		//gather label occurrences
 		LabelOccurrenceStep occurrencesStep = new LabelOccurrenceStep(workingDir, sensesStep) ;
 		ToolRunner.run(new Configuration(), occurrencesStep, args);
-		
+
 		FinalSummaryStep finalStep = new FinalSummaryStep(finalDir, sortingStep, depthStep, primaryLabelStep, sensesStep, occurrencesStep) ;
 		finalStep.run() ;
-		
+
 		return 0 ;
 	}
 
@@ -276,7 +278,7 @@ public class DumpExtractor {
 
 		while ((line = reader.readLine()) != null) {
 
-			if (!startedWriting && line.matches("\\s*\\<siteinfo\\>\\s*")) 
+			if (!startedWriting && line.matches("\\s*\\<siteinfo\\>\\s*"))
 				startedWriting = true ;
 
 			if (startedWriting) {
